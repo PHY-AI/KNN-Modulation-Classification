@@ -4,7 +4,7 @@ clc;
 
 rows = 1000;
 cols = 500*2;
-NFeatures = 9;
+NFeatures = 5;
 test_data = zeros(rows, NFeatures);
 SNR = [-4:2:10];
 for i = 1:length(SNR)
@@ -18,7 +18,7 @@ snr = SNR(i);
     % Generate random data
     data = randi([0 1], rows, cols);   
     
-    % PSK Ó³Éä
+    % PSK æ˜ å°„
     [data1] = data';
     data_cell = mat2cell(data1,cols,ones(1,rows));
     signalData = cellfun(@(x) QPSKModulator(x), data_cell, 'UniformOutput',false);
@@ -26,10 +26,10 @@ snr = SNR(i);
     signalDataMat = cell2mat(signalData);
     dataMod = mat2cell(signalDataMat',ones(1,rows),cols/2);
     
-     % AWGN ¼ÓÔë
+     % AWGN åŠ å™ª
     dataRx = cellfun(@(x) awgn(x, snr), dataMod, 'UniformOutput',false);
     
-    % »ñÈ¡¸ß½×ÀÛ»ıÁ¿
+    % è·å–é«˜é˜¶ç´¯ç§¯é‡
     cumulants = cellfun(@(x) func_get_cumulants(x), dataRx, 'UniformOutput',false);
     cumulantsMat = cell2mat(cumulants);
     
